@@ -1,0 +1,16 @@
+{
+  "name": "konvaPlay",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel index.html --open"
+  },
+  "dependencies": {
+    "@types/react": "^16.9.41",
+    "konva": "^7.0.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-konva": "^16.13.0-3"
+  }
+}
