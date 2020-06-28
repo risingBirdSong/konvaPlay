@@ -56491,6 +56491,9 @@ const MyStar = props => {
     },
     onDragEnd: e => {
       props.handleDragEnd(e, props.i);
+    },
+    onClick: e => {
+      console.log("star clicked", props.i);
     }
   });
 };
