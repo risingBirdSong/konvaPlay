@@ -6,6 +6,7 @@ import { Stage, Layer, Star, Text, Line } from "react-konva";
 import MyStar from "./components/star";
 import TestAnimate from "./components/animation";
 import AnimateMe from "./components/animationtest";
+import Play from "./components/shapeplay";
 
 type xYCoords = number[];
 
@@ -60,6 +61,7 @@ class App extends React.Component<{}, AppState> {
     return (
       <Stage
         onClick={(e) => {
+          console.log("", e.currentTarget.children[0].children);
           const newCoords = [e.evt.clientX.valueOf(), e.evt.clientY.valueOf()];
           const newState = [...this.state.coords].concat([newCoords]);
           this.setState({ coords: newState });
@@ -68,6 +70,7 @@ class App extends React.Component<{}, AppState> {
         height={window.innerHeight}
       >
         <Layer>
+          <Play />
           {this.state.coords.map((coord, i) => {
             let fillColor = "purple";
             return (
