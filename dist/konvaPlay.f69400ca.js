@@ -56496,163 +56496,8 @@ const MyStar = props => {
 };
 
 exports.default = MyStar;
-},{"react":"node_modules/react/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js"}],"components/animation.tsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js"}],"app.tsx":[function(require,module,exports) {
 "use strict";
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  result["default"] = mod;
-  return result;
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-const React = __importStar(require("react"));
-
-const react_konva_1 = require("react-konva");
-
-class TestAnimate extends React.Component {
-  constructor() {
-    super(...arguments); // private test: KonvaNodeComponent;
-
-    this.changeSize = () => {
-      // to() is a method of `Konva.Node` instances
-      //@ts-ignore
-      this.star.to({
-        scaleX: Math.random() + 0.8,
-        scaleY: Math.random() + 0.8,
-        duration: 0.2
-      });
-    };
-  }
-
-  render() {
-    return React.createElement(react_konva_1.Star, {
-      ref: node => {
-        //@ts-ignore
-        this.star = node;
-      },
-      innerRadius: 30,
-      outerRadius: 60,
-      numPoints: 5,
-      draggable: true,
-      onDragEnd: this.changeSize,
-      onDragStart: this.changeSize,
-      x: window.innerWidth / 2,
-      y: window.innerHeight / 2,
-      fill: "orange"
-    });
-  }
-
-}
-
-exports.default = TestAnimate; // var velocity = 50;
-// var anim = new Konva.Animation(function(frame) {
-//   var dist = velocity * (frame.timeDiff / 1000);
-//   node.move({x: dist, y: 0});
-// }, layer);
-// anim.start();
-},{"react":"node_modules/react/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js"}],"components/animationtest.tsx":[function(require,module,exports) {
-"use strict";
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  result["default"] = mod;
-  return result;
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-const React = __importStar(require("react"));
-
-const konva_1 = __importDefault(require("konva"));
-
-const react_konva_1 = require("react-konva");
-
-class AnimateMe extends React.Component {
-  componentDidMount() {
-    var angularSpeed = 90;
-    this.anim = new konva_1.default.Animation(frame => {
-      var angleDiff = frame.timeDiff * angularSpeed / 1000;
-      this.rect.rotate(angleDiff);
-    }, this.rect.getLayer());
-    this.anim.start();
-  }
-
-  componentWillUnmount() {
-    this.anim.stop();
-  }
-
-  render() {
-    return (// <stage width="{window.innerWidth}" height="{window.innerHeight}">
-      //   <layer>
-      React.createElement(react_konva_1.Rect, {
-        x: 50,
-        y: 50,
-        width: 50,
-        height: 50,
-        fill: "green",
-        shadowblur: 5,
-        ref: node => {
-          this.rect = node;
-        }
-      }) //   </layer>
-      // </stage>
-
-    );
-  }
-
-}
-
-exports.default = AnimateMe;
-},{"react":"node_modules/react/index.js","konva":"node_modules/konva/lib/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js"}],"app.tsx":[function(require,module,exports) {
-"use strict";
-
-var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
-  function adopt(value) {
-    return value instanceof P ? value : new P(function (resolve) {
-      resolve(value);
-    });
-  }
-
-  return new (P || (P = Promise))(function (resolve, reject) {
-    function fulfilled(value) {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function rejected(value) {
-      try {
-        step(generator["throw"](value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function step(result) {
-      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
-    }
-
-    step((generator = generator.apply(thisArg, _arguments || [])).next());
-  });
-};
 
 var __importStar = this && this.__importStar || function (mod) {
   if (mod && mod.__esModule) return mod;
@@ -56679,14 +56524,6 @@ const konva_1 = __importDefault(require("konva"));
 const react_konva_1 = require("react-konva");
 
 const star_1 = __importDefault(require("./components/star"));
-
-const animation_1 = __importDefault(require("./components/animation"));
-
-const animationtest_1 = __importDefault(require("./components/animationtest"));
-
-const randomCoords = () => {
-  return [...Array(10).keys()].map(() => [Math.random() * window.innerWidth, Math.random() * window.innerHeight]);
-};
 
 class App extends React.Component {
   constructor(props) {
@@ -56730,23 +56567,9 @@ class App extends React.Component {
     this.handleDragEnd = this.handleDragEnd.bind(this);
   }
 
-  delay() {
-    return __awaiter(this, void 0, void 0, function* () {
-      yield new Promise((res, rej) => {
-        setTimeout(() => {
-          console.log("firing");
-          res();
-        }, 2000);
-      });
-      this.setState({
-        coords: randomCoords()
-      });
-    });
-  }
-
   componentDidMount() {
     this.setState({
-      coords: randomCoords()
+      coords: []
     }, () => {
       console.log("state", this.state.coords);
     });
@@ -56764,7 +56587,7 @@ class App extends React.Component {
       },
       width: window.innerWidth,
       height: window.innerHeight
-    }, React.createElement(react_konva_1.Layer, null, React.createElement(animation_1.default, null), React.createElement(animationtest_1.default, null), this.state.coords.map((coord, i) => {
+    }, React.createElement(react_konva_1.Layer, null, this.state.coords.map((coord, i) => {
       let fillColor = "purple";
       return React.createElement(star_1.default, {
         i: i,
@@ -56774,21 +56597,13 @@ class App extends React.Component {
         handleDragStart: this.handleDragStart,
         handleDragEnd: this.handleDragEnd
       });
-    }), this.state.coords.map((coord, i, arr) => {
-      return i < arr.length - 1 ? React.createElement(react_konva_1.Line, {
-        points: [...coord, arr[i + 1][0], arr[i + 1][1]],
-        stroke: "blue",
-        key: i
-      }) : React.createElement(react_konva_1.Text, {
-        text: "hello"
-      });
     })));
   }
 
 }
 
 exports.default = App;
-},{"react":"node_modules/react/index.js","konva":"node_modules/konva/lib/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js","./components/star":"components/star.tsx","./components/animation":"components/animation.tsx","./components/animationtest":"components/animationtest.tsx"}],"index.tsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","konva":"node_modules/konva/lib/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js","./components/star":"components/star.tsx"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {

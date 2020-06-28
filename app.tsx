@@ -12,13 +12,6 @@ type xYCoords = number[];
 interface AppState {
   coords: xYCoords[];
 }
-
-const randomCoords = (): xYCoords[] => {
-  return [...Array(10).keys()].map(() => [
-    Math.random() * window.innerWidth,
-    Math.random() * window.innerHeight,
-  ]);
-};
 class App extends React.Component<{}, AppState> {
   constructor(props: {}) {
     super(props);
@@ -30,18 +23,8 @@ class App extends React.Component<{}, AppState> {
     this.handleDragEnd = this.handleDragEnd.bind(this);
   }
 
-  async delay() {
-    await new Promise((res, rej) => {
-      setTimeout(() => {
-        console.log("firing");
-        res();
-      }, 2000);
-    });
-    this.setState({ coords: randomCoords() });
-  }
-
   componentDidMount() {
-    this.setState({ coords: randomCoords() }, () => {
+    this.setState({ coords: [] }, () => {
       console.log("state", this.state.coords);
     });
   }
@@ -85,8 +68,6 @@ class App extends React.Component<{}, AppState> {
         height={window.innerHeight}
       >
         <Layer>
-          <TestAnimate />
-          <AnimateMe />
           {this.state.coords.map((coord, i) => {
             let fillColor = "purple";
             return (
@@ -100,17 +81,6 @@ class App extends React.Component<{}, AppState> {
                 // handleDragStart={this.handleDragStart}
                 // handleDragEnd={this.handleDragEnd}
               />
-            );
-          })}
-          {this.state.coords.map((coord, i, arr) => {
-            return i < arr.length - 1 ? (
-              <Line
-                points={[...coord, arr[i + 1][0], arr[i + 1][1]]}
-                stroke={"blue"}
-                key={i}
-              />
-            ) : (
-              <Text text={"hello"} />
             );
           })}
         </Layer>
