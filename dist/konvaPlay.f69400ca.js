@@ -56447,20 +56447,10 @@ module.exports = _extends({}, ReactKonvaCore);
 },{"./ReactKonvaCore":"node_modules/react-konva/lib/ReactKonvaCore.js","konva":"node_modules/konva/lib/index.js"}],"components/star.tsx":[function(require,module,exports) {
 "use strict";
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 var __importStar = this && this.__importStar || function (mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  }
+  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
   result["default"] = mod;
   return result;
 };
@@ -56469,16 +56459,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var React = __importStar(require("react"));
+const React = __importStar(require("react"));
 
-var react_konva_1 = require("react-konva");
+const react_konva_1 = require("react-konva");
 
-var MyStar = function MyStar(props) {
-  var _React$useState = React.useState("green"),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      color = _React$useState2[0],
-      setColor = _React$useState2[1];
-
+const MyStar = props => {
+  const [color, setColor] = React.useState("green");
   return React.createElement(react_konva_1.Star, {
     classname: "astar",
     key: props.i,
@@ -56494,57 +56480,121 @@ var MyStar = function MyStar(props) {
     shadowColor: "black",
     shadowBlur: 10,
     shadowOpacity: 0.6,
-    onDragStart: function onDragStart(e) {
+    onDragStart: e => {
       props.handleDragStart(e, props.i);
     },
-    onMouseEnter: function onMouseEnter() {
+    onMouseEnter: () => {
       setColor("blue");
     },
-    onMouseOut: function onMouseOut() {
+    onMouseOut: () => {
       setColor("purple");
     },
-    onDragEnd: function onDragEnd(e) {
+    onDragEnd: e => {
       props.handleDragEnd(e, props.i);
     }
   });
 };
 
 exports.default = MyStar;
-},{"react":"node_modules/react/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js"}],"app.tsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js"}],"components/animation.tsx":[function(require,module,exports) {
 "use strict";
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 var __importStar = this && this.__importStar || function (mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  result["default"] = mod;
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const React = __importStar(require("react"));
+
+const react_konva_1 = require("react-konva");
+
+class TestAnimate extends React.Component {
+  constructor() {
+    super(...arguments); // private test: KonvaNodeComponent;
+
+    this.changeSize = () => {
+      // to() is a method of `Konva.Node` instances
+      //@ts-ignore
+      this.star.to({
+        scaleX: Math.random() + 0.8,
+        scaleY: Math.random() + 0.8,
+        duration: 0.2
+      });
+    };
   }
+
+  render() {
+    return React.createElement(react_konva_1.Star, {
+      ref: node => {
+        //@ts-ignore
+        this.star = node;
+      },
+      innerRadius: 30,
+      outerRadius: 60,
+      numPoints: 5,
+      draggable: true,
+      onDragEnd: this.changeSize,
+      onDragStart: this.changeSize,
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+      fill: "orange"
+    });
+  }
+
+}
+
+exports.default = TestAnimate; // var velocity = 50;
+// var anim = new Konva.Animation(function(frame) {
+//   var dist = velocity * (frame.timeDiff / 1000);
+//   node.move({x: dist, y: 0});
+// }, layer);
+// anim.start();
+},{"react":"node_modules/react/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js"}],"app.tsx":[function(require,module,exports) {
+"use strict";
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
   result["default"] = mod;
   return result;
 };
@@ -56559,33 +56609,25 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var React = __importStar(require("react"));
+const React = __importStar(require("react"));
 
-var konva_1 = __importDefault(require("konva"));
+const konva_1 = __importDefault(require("konva"));
 
-var react_konva_1 = require("react-konva");
+const react_konva_1 = require("react-konva");
 
-var star_1 = __importDefault(require("./components/star"));
+const star_1 = __importDefault(require("./components/star"));
 
-var randomCoords = function randomCoords() {
-  return _toConsumableArray(Array(10).keys()).map(function () {
-    return [Math.random() * window.innerWidth, Math.random() * window.innerHeight];
-  });
+const animation_1 = __importDefault(require("./components/animation"));
+
+const randomCoords = () => {
+  return [...Array(10).keys()].map(() => [Math.random() * window.innerWidth, Math.random() * window.innerHeight]);
 };
 
-var App =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(App, _React$Component);
+class App extends React.Component {
+  constructor(props) {
+    super(props);
 
-  function App(props) {
-    var _this;
-
-    _classCallCheck(this, App);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
-
-    _this.handleDragStart = function (e, idx) {
+    this.handleDragStart = (e, idx) => {
       //coords[idx] : [e.target.x, e.target.y]
       e.target.setAttrs({
         shadowOffset: {
@@ -56597,16 +56639,14 @@ function (_React$Component) {
       });
     };
 
-    _this.handleDragEnd = function (e, idx) {
-      var coordsCopy = _this.state.coords;
+    this.handleDragEnd = (e, idx) => {
+      let coordsCopy = this.state.coords;
       coordsCopy[idx] = [e.currentTarget.x(), e.currentTarget.y()];
-
-      _this.setState({
+      this.setState({
         coords: coordsCopy
-      }, function () {
-        console.log("new state", _this.state.coords[idx]);
+      }, () => {
+        console.log("new state", this.state.coords[idx]);
       });
-
       e.target.to({
         duration: 0.5,
         easing: konva_1.default.Easings.ElasticEaseOut,
@@ -56617,70 +56657,73 @@ function (_React$Component) {
       });
     };
 
-    _this.state = {
+    this.state = {
       coords: []
     };
-    console.log(_this.state.coords);
-    _this.handleDragStart = _this.handleDragStart.bind(_assertThisInitialized(_this));
-    _this.handleDragEnd = _this.handleDragEnd.bind(_assertThisInitialized(_this));
-    return _this;
+    console.log(this.state.coords);
+    this.handleDragStart = this.handleDragStart.bind(this);
+    this.handleDragEnd = this.handleDragEnd.bind(this);
   }
 
-  _createClass(App, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
+  delay() {
+    return __awaiter(this, void 0, void 0, function* () {
+      yield new Promise((res, rej) => {
+        setTimeout(() => {
+          console.log("firing");
+          res();
+        }, 2000);
+      });
       this.setState({
         coords: randomCoords()
-      }, function () {
-        console.log("state", _this2.state.coords);
       });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this3 = this;
+    });
+  }
 
-      console.log("window inner height", window.innerHeight);
-      return React.createElement(react_konva_1.Stage, {
-        width: window.innerWidth,
-        height: window.innerHeight
-      }, React.createElement(react_konva_1.Layer, null, this.state.coords.map(function (coord, i) {
-        var fillColor = "purple";
-        return React.createElement(star_1.default, {
-          i: i,
-          xCoord: coord[0],
-          yCoord: coord[1],
-          key: i,
-          handleDragStart: _this3.handleDragStart,
-          handleDragEnd: _this3.handleDragEnd
-        });
-      }), this.state.coords.map(function (coord, i, arr) {
-        return i < arr.length - 1 ? React.createElement(react_konva_1.Line, {
-          points: [].concat(_toConsumableArray(coord), [arr[i + 1][0], arr[i + 1][1]]),
-          stroke: "blue",
-          key: i
-        }) : React.createElement(react_konva_1.Text, {
-          text: "hello"
-        });
-      })));
-    }
-  }]);
+  componentDidMount() {
+    this.setState({
+      coords: randomCoords()
+    }, () => {
+      console.log("state", this.state.coords);
+    });
+  }
 
-  return App;
-}(React.Component);
+  render() {
+    console.log("window inner height", window.innerHeight);
+    this.delay();
+    return React.createElement(react_konva_1.Stage, {
+      width: window.innerWidth,
+      height: window.innerHeight
+    }, React.createElement(react_konva_1.Layer, null, React.createElement(animation_1.default, null), this.state.coords.map((coord, i) => {
+      let fillColor = "purple";
+      return React.createElement(star_1.default, {
+        i: i,
+        xCoord: coord[0],
+        yCoord: coord[1],
+        key: i,
+        handleDragStart: this.handleDragStart,
+        handleDragEnd: this.handleDragEnd
+      });
+    }), this.state.coords.map((coord, i, arr) => {
+      return i < arr.length - 1 ? React.createElement(react_konva_1.Line, {
+        points: [...coord, arr[i + 1][0], arr[i + 1][1]],
+        stroke: "blue",
+        key: i
+      }) : React.createElement(react_konva_1.Text, {
+        text: "hello"
+      });
+    })));
+  }
+
+}
 
 exports.default = App;
-},{"react":"node_modules/react/index.js","konva":"node_modules/konva/lib/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js","./components/star":"components/star.tsx"}],"index.tsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","konva":"node_modules/konva/lib/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js","./components/star":"components/star.tsx","./components/animation":"components/animation.tsx"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  }
+  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
   result["default"] = mod;
   return result;
 };
@@ -56695,11 +56738,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var React = __importStar(require("react"));
+const React = __importStar(require("react"));
 
-var react_dom_1 = require("react-dom");
+const react_dom_1 = require("react-dom");
 
-var app_1 = __importDefault(require("./app"));
+const app_1 = __importDefault(require("./app"));
 
 react_dom_1.render(React.createElement(app_1.default, null), document.getElementById("root"));
 },{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./app":"app.tsx"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -56730,7 +56773,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61679" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53728" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

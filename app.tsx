@@ -4,6 +4,7 @@ import * as React from "react";
 import Konva from "konva";
 import { Stage, Layer, Star, Text, Line } from "react-konva";
 import MyStar from "./components/star";
+import TestAnimate from "./components/animation";
 
 type xYCoords = number[];
 
@@ -26,6 +27,16 @@ class App extends React.Component<{}, AppState> {
     console.log(this.state.coords);
     this.handleDragStart = this.handleDragStart.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
+  }
+
+  async delay() {
+    await new Promise((res, rej) => {
+      setTimeout(() => {
+        console.log("firing");
+        res();
+      }, 2000);
+    });
+    this.setState({ coords: randomCoords() });
   }
 
   componentDidMount() {
@@ -62,9 +73,11 @@ class App extends React.Component<{}, AppState> {
   };
   render() {
     console.log("window inner height", window.innerHeight);
+    this.delay();
     return (
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
+          <TestAnimate />
           {this.state.coords.map((coord, i) => {
             let fillColor = "purple";
             return (
@@ -75,6 +88,8 @@ class App extends React.Component<{}, AppState> {
                 key={i}
                 handleDragStart={this.handleDragStart}
                 handleDragEnd={this.handleDragEnd}
+                // handleDragStart={this.handleDragStart}
+                // handleDragEnd={this.handleDragEnd}
               />
             );
           })}
