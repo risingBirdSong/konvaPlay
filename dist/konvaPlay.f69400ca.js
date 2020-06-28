@@ -56755,6 +56755,13 @@ class App extends React.Component {
   render() {
     console.log("window inner height", window.innerHeight);
     return React.createElement(react_konva_1.Stage, {
+      onClick: e => {
+        const newCoords = [e.evt.clientX.valueOf(), e.evt.clientY.valueOf()];
+        const newState = [...this.state.coords].concat([newCoords]);
+        this.setState({
+          coords: newState
+        });
+      },
       width: window.innerWidth,
       height: window.innerHeight
     }, React.createElement(react_konva_1.Layer, null, React.createElement(animation_1.default, null), React.createElement(animationtest_1.default, null), this.state.coords.map((coord, i) => {
@@ -56837,7 +56844,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53728" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51271" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

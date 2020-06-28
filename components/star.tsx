@@ -14,6 +14,7 @@ const MyStar = (props: MyStarProps) => {
   const [color, setColor] = React.useState("green");
   return (
     <Star
+    
       classname="astar"
       key={props.i}
       x={props.xCoord}

@@ -75,7 +75,15 @@ class App extends React.Component<{}, AppState> {
   render() {
     console.log("window inner height", window.innerHeight);
     return (
-      <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Stage
+        onClick={(e) => {
+          const newCoords = [e.evt.clientX.valueOf(), e.evt.clientY.valueOf()];
+          const newState = [...this.state.coords].concat([newCoords]);
+          this.setState({ coords: newState });
+        }}
+        width={window.innerWidth}
+        height={window.innerHeight}
+      >
         <Layer>
           <TestAnimate />
           <AnimateMe />
