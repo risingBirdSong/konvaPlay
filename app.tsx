@@ -1,8 +1,9 @@
-import * as React from "react";
 //@ts-ignore
 import { render } from "react-dom";
+import * as React from "react";
 import Konva from "konva";
 import { Stage, Layer, Star, Text, Line } from "react-konva";
+import MyStar from "./components/star";
 
 type xYCoords = number[];
 
@@ -64,30 +65,19 @@ class App extends React.Component<{}, AppState> {
     return (
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          {this.state.coords.map((coord, i) => (
-            <Star
-              classname="astar"
-              key={i}
-              x={coord[0]}
-              y={coord[1]}
-              numPoints={5}
-              innerRadius={20}
-              outerRadius={40}
-              fill="#89b717"
-              opacity={0.8}
-              draggable
-              rotation={Math.random() * 180}
-              shadowColor="black"
-              shadowBlur={10}
-              shadowOpacity={0.6}
-              onDragStart={(e) => {
-                this.handleDragStart(e, i);
-              }}
-              onDragEnd={(e) => {
-                this.handleDragEnd(e, i);
-              }}
-            />
-          ))}
+          {this.state.coords.map((coord, i) => {
+            let fillColor = "purple";
+            return (
+              <MyStar
+                i={i}
+                xCoord={coord[0]}
+                yCoord={coord[1]}
+                key={i}
+                handleDragStart={this.handleDragStart}
+                handleDragEnd={this.handleDragEnd}
+              />
+            );
+          })}
           {this.state.coords.map((coord, i, arr) => {
             return i < arr.length - 1 ? (
               <Line
