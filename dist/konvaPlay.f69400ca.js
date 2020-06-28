@@ -56601,11 +56601,13 @@ function (_React$Component) {
             _this3.handleDragEnd(e, i);
           }
         });
-      }), this.state.coords.map(function (coord, i) {
-        return React.createElement(react_konva_1.Line, {
-          points: [].concat(_toConsumableArray(coord), [window.innerWidth / 2, window.innerHeight / 2]),
+      }), this.state.coords.map(function (coord, i, arr) {
+        return i < arr.length - 1 ? React.createElement(react_konva_1.Line, {
+          points: [].concat(_toConsumableArray(coord), [arr[i + 1][0], arr[i + 1][1]]),
           stroke: "blue",
           key: i
+        }) : React.createElement(react_konva_1.Text, {
+          text: "hello"
         });
       })));
     }
@@ -56673,7 +56675,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54174" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56794" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

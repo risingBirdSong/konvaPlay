@@ -88,17 +88,15 @@ class App extends React.Component<{}, AppState> {
               }}
             />
           ))}
-          {this.state.coords.map((coord, i) => {
-            return (
+          {this.state.coords.map((coord, i, arr) => {
+            return i < arr.length - 1 ? (
               <Line
-                points={[
-                  ...coord,
-                  window.innerWidth / 2,
-                  window.innerHeight / 2,
-                ]}
+                points={[...coord, arr[i + 1][0], arr[i + 1][1]]}
                 stroke={"blue"}
                 key={i}
               />
+            ) : (
+              <Text text={"hello"} />
             );
           })}
         </Layer>
