@@ -56556,7 +56556,70 @@ exports.default = TestAnimate; // var velocity = 50;
 //   node.move({x: dist, y: 0});
 // }, layer);
 // anim.start();
-},{"react":"node_modules/react/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js"}],"app.tsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js"}],"components/animationtest.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  result["default"] = mod;
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const React = __importStar(require("react"));
+
+const konva_1 = __importDefault(require("konva"));
+
+const react_konva_1 = require("react-konva");
+
+class AnimateMe extends React.Component {
+  componentDidMount() {
+    var angularSpeed = 90;
+    this.anim = new konva_1.default.Animation(frame => {
+      var angleDiff = frame.timeDiff * angularSpeed / 1000;
+      this.rect.rotate(angleDiff);
+    }, this.rect.getLayer());
+    this.anim.start();
+  }
+
+  componentWillUnmount() {
+    this.anim.stop();
+  }
+
+  render() {
+    return (// <stage width="{window.innerWidth}" height="{window.innerHeight}">
+      //   <layer>
+      React.createElement(react_konva_1.Rect, {
+        x: 50,
+        y: 50,
+        width: 50,
+        height: 50,
+        fill: "green",
+        shadowblur: 5,
+        ref: node => {
+          this.rect = node;
+        }
+      }) //   </layer>
+      // </stage>
+
+    );
+  }
+
+}
+
+exports.default = AnimateMe;
+},{"react":"node_modules/react/index.js","konva":"node_modules/konva/lib/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js"}],"app.tsx":[function(require,module,exports) {
 "use strict";
 
 var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -56618,6 +56681,8 @@ const react_konva_1 = require("react-konva");
 const star_1 = __importDefault(require("./components/star"));
 
 const animation_1 = __importDefault(require("./components/animation"));
+
+const animationtest_1 = __importDefault(require("./components/animationtest"));
 
 const randomCoords = () => {
   return [...Array(10).keys()].map(() => [Math.random() * window.innerWidth, Math.random() * window.innerHeight]);
@@ -56689,11 +56754,10 @@ class App extends React.Component {
 
   render() {
     console.log("window inner height", window.innerHeight);
-    this.delay();
     return React.createElement(react_konva_1.Stage, {
       width: window.innerWidth,
       height: window.innerHeight
-    }, React.createElement(react_konva_1.Layer, null, React.createElement(animation_1.default, null), this.state.coords.map((coord, i) => {
+    }, React.createElement(react_konva_1.Layer, null, React.createElement(animation_1.default, null), React.createElement(animationtest_1.default, null), this.state.coords.map((coord, i) => {
       let fillColor = "purple";
       return React.createElement(star_1.default, {
         i: i,
@@ -56717,7 +56781,7 @@ class App extends React.Component {
 }
 
 exports.default = App;
-},{"react":"node_modules/react/index.js","konva":"node_modules/konva/lib/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js","./components/star":"components/star.tsx","./components/animation":"components/animation.tsx"}],"index.tsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","konva":"node_modules/konva/lib/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js","./components/star":"components/star.tsx","./components/animation":"components/animation.tsx","./components/animationtest":"components/animationtest.tsx"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {

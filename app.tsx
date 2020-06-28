@@ -5,6 +5,7 @@ import Konva from "konva";
 import { Stage, Layer, Star, Text, Line } from "react-konva";
 import MyStar from "./components/star";
 import TestAnimate from "./components/animation";
+import AnimateMe from "./components/animationtest";
 
 type xYCoords = number[];
 
@@ -73,11 +74,11 @@ class App extends React.Component<{}, AppState> {
   };
   render() {
     console.log("window inner height", window.innerHeight);
-    this.delay();
     return (
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
           <TestAnimate />
+          <AnimateMe />
           {this.state.coords.map((coord, i) => {
             let fillColor = "purple";
             return (
