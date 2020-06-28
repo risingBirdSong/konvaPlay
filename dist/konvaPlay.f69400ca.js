@@ -56444,7 +56444,73 @@ var ReactKonvaCore = require('./ReactKonvaCore');
 var Konva = require('konva');
 
 module.exports = _extends({}, ReactKonvaCore);
-},{"./ReactKonvaCore":"node_modules/react-konva/lib/ReactKonvaCore.js","konva":"node_modules/konva/lib/index.js"}],"app.tsx":[function(require,module,exports) {
+},{"./ReactKonvaCore":"node_modules/react-konva/lib/ReactKonvaCore.js","konva":"node_modules/konva/lib/index.js"}],"components/star.tsx":[function(require,module,exports) {
+"use strict";
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var React = __importStar(require("react"));
+
+var react_konva_1 = require("react-konva");
+
+var MyStar = function MyStar(props) {
+  var _React$useState = React.useState("green"),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      color = _React$useState2[0],
+      setColor = _React$useState2[1];
+
+  return React.createElement(react_konva_1.Star, {
+    classname: "astar",
+    key: props.i,
+    x: props.xCoord,
+    y: props.yCoord,
+    numPoints: 5,
+    innerRadius: 20,
+    outerRadius: 40,
+    fill: color,
+    opacity: 0.8,
+    draggable: true,
+    rotation: Math.random() * 180,
+    shadowColor: "black",
+    shadowBlur: 10,
+    shadowOpacity: 0.6,
+    onDragStart: function onDragStart(e) {
+      props.handleDragStart(e, props.i);
+    },
+    onMouseEnter: function onMouseEnter() {
+      setColor("blue");
+    },
+    onMouseOut: function onMouseOut() {
+      setColor("purple");
+    },
+    onDragEnd: function onDragEnd(e) {
+      props.handleDragEnd(e, props.i);
+    }
+  });
+};
+
+exports.default = MyStar;
+},{"react":"node_modules/react/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js"}],"app.tsx":[function(require,module,exports) {
 "use strict";
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -56498,6 +56564,8 @@ var React = __importStar(require("react"));
 var konva_1 = __importDefault(require("konva"));
 
 var react_konva_1 = require("react-konva");
+
+var star_1 = __importDefault(require("./components/star"));
 
 var randomCoords = function randomCoords() {
   return _toConsumableArray(Array(10).keys()).map(function () {
@@ -56579,27 +56647,14 @@ function (_React$Component) {
         width: window.innerWidth,
         height: window.innerHeight
       }, React.createElement(react_konva_1.Layer, null, this.state.coords.map(function (coord, i) {
-        return React.createElement(react_konva_1.Star, {
-          classname: "astar",
+        var fillColor = "purple";
+        return React.createElement(star_1.default, {
+          i: i,
+          xCoord: coord[0],
+          yCoord: coord[1],
           key: i,
-          x: coord[0],
-          y: coord[1],
-          numPoints: 5,
-          innerRadius: 20,
-          outerRadius: 40,
-          fill: "#89b717",
-          opacity: 0.8,
-          draggable: true,
-          rotation: Math.random() * 180,
-          shadowColor: "black",
-          shadowBlur: 10,
-          shadowOpacity: 0.6,
-          onDragStart: function onDragStart(e) {
-            _this3.handleDragStart(e, i);
-          },
-          onDragEnd: function onDragEnd(e) {
-            _this3.handleDragEnd(e, i);
-          }
+          handleDragStart: _this3.handleDragStart,
+          handleDragEnd: _this3.handleDragEnd
         });
       }), this.state.coords.map(function (coord, i, arr) {
         return i < arr.length - 1 ? React.createElement(react_konva_1.Line, {
@@ -56617,7 +56672,7 @@ function (_React$Component) {
 }(React.Component);
 
 exports.default = App;
-},{"react":"node_modules/react/index.js","konva":"node_modules/konva/lib/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js"}],"index.tsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","konva":"node_modules/konva/lib/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js","./components/star":"components/star.tsx"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -56675,7 +56730,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56794" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61679" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
