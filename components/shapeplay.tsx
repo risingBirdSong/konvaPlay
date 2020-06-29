@@ -12,14 +12,17 @@ import {
 
 interface PlayProps {
   x: number;
+  y: number;
 }
 interface PlayState {
   x: number;
   y: number;
+  color: string;
 }
 
-let i = 0;
+let colors = ["red", "blue", "purple", "green", "orange"];
 
+colors[Math.floor(colors.length * Math.random())];
 class Play extends React.Component<PlayProps, PlayState> {
   // private star!: KonvaNodeComponent<typeof Star, StarConfig>;
   constructor(props: any) {
@@ -27,13 +30,14 @@ class Play extends React.Component<PlayProps, PlayState> {
     this.state = {
       x: 0,
       y: 0,
+      color: colors[Math.floor(colors.length * Math.random())],
     };
   }
 
   componentDidMount() {
     this.setState({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
+      x: window.innerWidth / 2 + Math.random() * 100,
+      y: window.innerHeight / 2 + Math.random() * 100,
     });
     let animationSpeed = 30;
     this.anim = new Konva.Animation((frame) => {
@@ -41,9 +45,9 @@ class Play extends React.Component<PlayProps, PlayState> {
       let angleDiff = (frame?.timeDiff * animationSpeed) / 1000;
       // this.star.rotate(angleDiff);
       this.star.to({
-        x: this.props.x,
-        y: window.innerHeight / 2,
-        duration: 2,
+        x: this.props.x + Math.random() * 40,
+        y: this.props.y + Math.random() * 40,
+        // duration: 0.3,
       });
       // console.log("logger", this.star.getAbsoluteScale());
     }, this.star.getLayer());
@@ -67,7 +71,7 @@ class Play extends React.Component<PlayProps, PlayState> {
         x={this.state.x}
         y={this.state.y}
         numPoints={6}
-        fill="blue"
+        fill={this.state.color}
       />
     );
   }

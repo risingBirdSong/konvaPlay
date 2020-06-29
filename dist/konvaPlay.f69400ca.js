@@ -56471,7 +56471,8 @@ const konva_1 = __importDefault(require("konva"));
 
 const react_konva_1 = require("react-konva");
 
-let i = 0;
+let colors = ["red", "blue", "purple", "green", "orange"];
+colors[Math.floor(colors.length * Math.random())];
 
 class Play extends React.Component {
   // private star!: KonvaNodeComponent<typeof Star, StarConfig>;
@@ -56479,14 +56480,15 @@ class Play extends React.Component {
     super(props);
     this.state = {
       x: 0,
-      y: 0
+      y: 0,
+      color: colors[Math.floor(colors.length * Math.random())]
     };
   }
 
   componentDidMount() {
     this.setState({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight
+      x: window.innerWidth / 2 + Math.random() * 100,
+      y: window.innerHeight / 2 + Math.random() * 100
     });
     let animationSpeed = 30;
     this.anim = new konva_1.default.Animation(frame => {
@@ -56496,9 +56498,8 @@ class Play extends React.Component {
       let angleDiff = ((_a = frame) === null || _a === void 0 ? void 0 : _a.timeDiff) * animationSpeed / 1000; // this.star.rotate(angleDiff);
 
       this.star.to({
-        x: this.props.x,
-        y: window.innerHeight / 2,
-        duration: 2
+        x: this.props.x + Math.random() * 40,
+        y: this.props.y + Math.random() * 40
       }); // console.log("logger", this.star.getAbsoluteScale());
     }, this.star.getLayer());
     this.anim.start();
@@ -56520,7 +56521,7 @@ class Play extends React.Component {
       x: this.state.x,
       y: this.state.y,
       numPoints: 6,
-      fill: "blue"
+      fill: this.state.color
     });
   }
 
@@ -56592,7 +56593,10 @@ class App extends React.Component {
 
     this.state = {
       coords: [],
-      mainX: 0
+      mainX: 0,
+      mainY: 0,
+      i: 0,
+      angle: 0
     };
     console.log(this.state.coords);
     this.handleDragStart = this.handleDragStart.bind(this);
@@ -56602,15 +56606,19 @@ class App extends React.Component {
   componentDidMount() {
     this.setState({
       coords: [],
-      mainX: window.innerWidth / 2
-    }, () => {});
+      mainX: window.innerWidth / 2,
+      mainY: window.innerHeight / 2
+    });
     setInterval(() => {
+      let angle = 0.1 * this.state.i;
       this.setState(prevState => ({
-        mainX: prevState.mainX + Math.sin(Date.now()) * 50
+        i: prevState.i === 360 ? 0 : prevState.i + 1,
+        mainX: prevState.mainX + Math.sin(angle) * 30,
+        mainY: prevState.mainY + Math.cos(angle) * 30
       }), () => {
-        console.log("main x", this.state.mainX);
+        console.log("i", this.state.i);
       });
-    }, 100);
+    }, 5);
   }
 
   render() {
@@ -56628,7 +56636,8 @@ class App extends React.Component {
       height: window.innerHeight
     }, React.createElement(react_konva_1.Layer, null, [...Array(30).keys()].map((val, i) => {
       return React.createElement(shapeplay_1.default, {
-        x: this.state.mainX
+        x: this.state.mainX,
+        y: this.state.mainY
       });
     })));
   }

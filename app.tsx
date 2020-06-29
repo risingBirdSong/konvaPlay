@@ -13,13 +13,20 @@ type xYCoords = number[];
 interface AppState {
   coords: xYCoords[];
   mainX: number;
+  mainY: number;
+  i: number;
+  angle: number;
 }
+
 class App extends React.Component<{}, AppState> {
   constructor(props: {}) {
     super(props);
     this.state = {
       coords: [],
       mainX: 0,
+      mainY: 0,
+      i: 0,
+      angle: 0,
     };
     console.log(this.state.coords);
     this.handleDragStart = this.handleDragStart.bind(this);
@@ -27,17 +34,24 @@ class App extends React.Component<{}, AppState> {
   }
 
   componentDidMount() {
-    this.setState({ coords: [], mainX: window.innerWidth / 2 }, () => {});
+    this.setState({
+      coords: [],
+      mainX: window.innerWidth / 2,
+      mainY: window.innerHeight / 2,
+    });
     setInterval(() => {
+      let angle = 0.1 * this.state.i;
       this.setState(
         (prevState) => ({
-          mainX: prevState.mainX + Math.sin(Date.now()) * 50,
+          i: prevState.i === 360 ? 0 : prevState.i + 1,
+          mainX: prevState.mainX + Math.sin(angle) * 30,
+          mainY: prevState.mainY + Math.cos(angle) * 30,
         }),
         () => {
-          console.log("main x", this.state.mainX);
+          console.log("i", this.state.i);
         }
       );
-    }, 100);
+    }, 5);
   }
 
   handleDragStart = (e: Konva.KonvaEventObject<DragEvent>, idx: number) => {
@@ -81,7 +95,7 @@ class App extends React.Component<{}, AppState> {
       >
         <Layer>
           {[...Array(30).keys()].map((val, i) => {
-            return <Play x={this.state.mainX} />;
+            return <Play x={this.state.mainX} y={this.state.mainY} />;
           })}
         </Layer>
       </Stage>
