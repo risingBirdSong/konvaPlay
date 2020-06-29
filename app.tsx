@@ -4,19 +4,15 @@ import * as React from "react";
 import Konva from "konva";
 import { Stage, Layer, Star, Text, Line } from "react-konva";
 import MyStar from "./components/star";
+import TestAnimate from "./components/animation";
+import AnimateMe from "./components/animationtest";
+import Play from "./components/shapeplay";
 
 type xYCoords = number[];
 
 interface AppState {
   coords: xYCoords[];
 }
-
-const randomCoords = (): xYCoords[] => {
-  return [...Array(10).keys()].map(() => [
-    Math.random() * window.innerWidth,
-    Math.random() * window.innerHeight,
-  ]);
-};
 class App extends React.Component<{}, AppState> {
   constructor(props: {}) {
     super(props);
@@ -29,7 +25,7 @@ class App extends React.Component<{}, AppState> {
   }
 
   componentDidMount() {
-    this.setState({ coords: randomCoords() }, () => {
+    this.setState({ coords: [] }, () => {
       console.log("state", this.state.coords);
     });
   }
@@ -63,31 +59,19 @@ class App extends React.Component<{}, AppState> {
   render() {
     console.log("window inner height", window.innerHeight);
     return (
-      <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Stage
+        onClick={(e) => {
+          console.log("", e.currentTarget.children[0].children);
+          const newCoords = [e.evt.clientX.valueOf(), e.evt.clientY.valueOf()];
+          const newState = [...this.state.coords].concat([newCoords]);
+          this.setState({ coords: newState });
+        }}
+        width={window.innerWidth}
+        height={window.innerHeight}
+      >
         <Layer>
-          {this.state.coords.map((coord, i) => {
-            let fillColor = "purple";
-            return (
-              <MyStar
-                i={i}
-                xCoord={coord[0]}
-                yCoord={coord[1]}
-                key={i}
-                handleDragStart={this.handleDragStart}
-                handleDragEnd={this.handleDragEnd}
-              />
-            );
-          })}
-          {this.state.coords.map((coord, i, arr) => {
-            return i < arr.length - 1 ? (
-              <Line
-                points={[...coord, arr[i + 1][0], arr[i + 1][1]]}
-                stroke={"blue"}
-                key={i}
-              />
-            ) : (
-              <Text text={"hello"} />
-            );
+          {[...Array(30).keys()].map((val, i) => {
+            return <Play />;
           })}
         </Layer>
       </Stage>

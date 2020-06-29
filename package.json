@@ -6,6 +6,9 @@
   "scripts": {
     "start": "parcel index.html --open"
   },
+  "browserslist": [
+    "last 1 Chrome version"
+  ],
   "dependencies": {
     "@types/react": "^16.9.41",
     "konva": "^7.0.0",
