@@ -56471,6 +56471,8 @@ const konva_1 = __importDefault(require("konva"));
 
 const react_konva_1 = require("react-konva");
 
+let i = 0;
+
 class Play extends React.Component {
   // private star!: KonvaNodeComponent<typeof Star, StarConfig>;
   constructor(props) {
@@ -56488,13 +56490,15 @@ class Play extends React.Component {
     });
     let animationSpeed = 30;
     this.anim = new konva_1.default.Animation(frame => {
-      var _a;
+      var _a; // console.log("sin time", Math.sin(frame!.time));
+
 
       let angleDiff = ((_a = frame) === null || _a === void 0 ? void 0 : _a.timeDiff) * animationSpeed / 1000; // this.star.rotate(angleDiff);
 
       this.star.to({
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2
+        x: this.props.x,
+        y: window.innerHeight / 2,
+        duration: 2
       }); // console.log("logger", this.star.getAbsoluteScale());
     }, this.star.getLayer());
     this.anim.start();
@@ -56587,7 +56591,8 @@ class App extends React.Component {
     };
 
     this.state = {
-      coords: []
+      coords: [],
+      mainX: 0
     };
     console.log(this.state.coords);
     this.handleDragStart = this.handleDragStart.bind(this);
@@ -56596,10 +56601,16 @@ class App extends React.Component {
 
   componentDidMount() {
     this.setState({
-      coords: []
-    }, () => {
-      console.log("state", this.state.coords);
-    });
+      coords: [],
+      mainX: window.innerWidth / 2
+    }, () => {});
+    setInterval(() => {
+      this.setState(prevState => ({
+        mainX: prevState.mainX + Math.sin(Date.now()) * 50
+      }), () => {
+        console.log("main x", this.state.mainX);
+      });
+    }, 100);
   }
 
   render() {
@@ -56616,7 +56627,9 @@ class App extends React.Component {
       width: window.innerWidth,
       height: window.innerHeight
     }, React.createElement(react_konva_1.Layer, null, [...Array(30).keys()].map((val, i) => {
-      return React.createElement(shapeplay_1.default, null);
+      return React.createElement(shapeplay_1.default, {
+        x: this.state.mainX
+      });
     })));
   }
 

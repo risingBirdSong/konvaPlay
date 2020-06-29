@@ -9,14 +9,18 @@ import {
   Transformer,
   KonvaNodeComponent,
 } from "react-konva";
-import { Star, StarConfig } from "konva/types/shapes/Star";
 
+interface PlayProps {
+  x: number;
+}
 interface PlayState {
   x: number;
   y: number;
 }
 
-class Play extends React.Component<{}, PlayState> {
+let i = 0;
+
+class Play extends React.Component<PlayProps, PlayState> {
   // private star!: KonvaNodeComponent<typeof Star, StarConfig>;
   constructor(props: any) {
     super(props);
@@ -33,12 +37,13 @@ class Play extends React.Component<{}, PlayState> {
     });
     let animationSpeed = 30;
     this.anim = new Konva.Animation((frame) => {
+      // console.log("sin time", Math.sin(frame!.time));
       let angleDiff = (frame?.timeDiff * animationSpeed) / 1000;
       // this.star.rotate(angleDiff);
       this.star.to({
-        x: window.innerWidth / 2,
+        x: this.props.x,
         y: window.innerHeight / 2,
-        // duration: 0.11,
+        duration: 2,
       });
       // console.log("logger", this.star.getAbsoluteScale());
     }, this.star.getLayer());
