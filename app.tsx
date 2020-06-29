@@ -70,21 +70,8 @@ class App extends React.Component<{}, AppState> {
         height={window.innerHeight}
       >
         <Layer>
-          <Play />
-          {this.state.coords.map((coord, i) => {
-            let fillColor = "purple";
-            return (
-              <MyStar
-                i={i}
-                xCoord={coord[0]}
-                yCoord={coord[1]}
-                key={i}
-                handleDragStart={this.handleDragStart}
-                handleDragEnd={this.handleDragEnd}
-                // handleDragStart={this.handleDragStart}
-                // handleDragEnd={this.handleDragEnd}
-              />
-            );
+          {[...Array(30).keys()].map((val, i) => {
+            return <Play />;
           })}
         </Layer>
       </Stage>

@@ -56444,134 +56444,7 @@ var ReactKonvaCore = require('./ReactKonvaCore');
 var Konva = require('konva');
 
 module.exports = _extends({}, ReactKonvaCore);
-},{"./ReactKonvaCore":"node_modules/react-konva/lib/ReactKonvaCore.js","konva":"node_modules/konva/lib/index.js"}],"components/star.tsx":[function(require,module,exports) {
-"use strict";
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  result["default"] = mod;
-  return result;
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-const React = __importStar(require("react"));
-
-const react_konva_1 = require("react-konva");
-
-const MyStar = props => {
-  const [color, setColor] = React.useState("green");
-  return React.createElement(react_konva_1.Star, {
-    classname: "astar",
-    key: props.i,
-    x: props.xCoord,
-    y: props.yCoord,
-    numPoints: 5,
-    innerRadius: 20,
-    outerRadius: 40,
-    fill: color,
-    opacity: 0.8,
-    draggable: true,
-    rotation: Math.random() * 180,
-    shadowColor: "black",
-    shadowBlur: 10,
-    shadowOpacity: 0.6,
-    onDragStart: e => {
-      props.handleDragStart(e, props.i);
-    },
-    onMouseEnter: () => {
-      setColor("blue");
-    },
-    onMouseOut: () => {
-      setColor("purple");
-    },
-    onDragEnd: e => {
-      props.handleDragEnd(e, props.i);
-    },
-    onClick: e => {
-      console.log("star clicked", props.i);
-    }
-  });
-};
-
-exports.default = MyStar;
-},{"react":"node_modules/react/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js"}],"components/shapeplay.tsx":[function(require,module,exports) {
-"use strict";
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  result["default"] = mod;
-  return result;
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-const React = __importStar(require("react"));
-
-const react_konva_1 = require("react-konva");
-
-class Play extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.change = () => {
-      this.star.to({
-        scaleX: Math.random() + 0.8,
-        scaleY: Math.random() + 0.8,
-        duration: 0.2
-      });
-    };
-
-    this.timing = () => {
-      setInterval(() => {
-        this.change();
-      }, 100);
-    };
-
-    this.state = {
-      x: 0,
-      y: 0
-    };
-  }
-
-  componentDidMount() {
-    this.setState({
-      x: window.innerWidth / 2,
-      y: window.innerHeight / 2
-    }); // this.timing();
-  }
-
-  render() {
-    return React.createElement(react_konva_1.Star, {
-      ref: node => {
-        //@ts-ignore
-        this.star = node;
-      },
-      onMouseEnter: this.timing,
-      draggable: true,
-      innerRadius: 20,
-      outerRadius: 40,
-      x: this.state.x,
-      y: this.state.y,
-      onDragStart: this.change,
-      onDragEnd: this.change,
-      numPoints: 6,
-      fill: "blue"
-    });
-  }
-
-}
-
-exports.default = Play;
-},{"react":"node_modules/react/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js"}],"app.tsx":[function(require,module,exports) {
+},{"./ReactKonvaCore":"node_modules/react-konva/lib/ReactKonvaCore.js","konva":"node_modules/konva/lib/index.js"}],"components/shapeplay.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -56598,7 +56471,84 @@ const konva_1 = __importDefault(require("konva"));
 
 const react_konva_1 = require("react-konva");
 
-const star_1 = __importDefault(require("./components/star"));
+class Play extends React.Component {
+  // private star!: KonvaNodeComponent<typeof Star, StarConfig>;
+  constructor(props) {
+    super(props);
+    this.state = {
+      x: 0,
+      y: 0
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight
+    });
+    let animationSpeed = 30;
+    this.anim = new konva_1.default.Animation(frame => {
+      var _a;
+
+      let angleDiff = ((_a = frame) === null || _a === void 0 ? void 0 : _a.timeDiff) * animationSpeed / 1000; // this.star.rotate(angleDiff);
+
+      this.star.to({
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2
+      }); // console.log("logger", this.star.getAbsoluteScale());
+    }, this.star.getLayer());
+    this.anim.start();
+  }
+
+  componentWillUnmount() {
+    this.anim.stop();
+  }
+
+  render() {
+    return React.createElement(react_konva_1.Star, {
+      ref: node => {
+        //@ts-ignore
+        this.star = node;
+      },
+      draggable: true,
+      innerRadius: 20,
+      outerRadius: 40,
+      x: this.state.x,
+      y: this.state.y,
+      numPoints: 6,
+      fill: "blue"
+    });
+  }
+
+}
+
+exports.default = Play;
+},{"react":"node_modules/react/index.js","konva":"node_modules/konva/lib/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js"}],"app.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  result["default"] = mod;
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+const React = __importStar(require("react"));
+
+const konva_1 = __importDefault(require("konva"));
+
+const react_konva_1 = require("react-konva");
 
 const shapeplay_1 = __importDefault(require("./components/shapeplay"));
 
@@ -56665,23 +56615,15 @@ class App extends React.Component {
       },
       width: window.innerWidth,
       height: window.innerHeight
-    }, React.createElement(react_konva_1.Layer, null, React.createElement(shapeplay_1.default, null), this.state.coords.map((coord, i) => {
-      let fillColor = "purple";
-      return React.createElement(star_1.default, {
-        i: i,
-        xCoord: coord[0],
-        yCoord: coord[1],
-        key: i,
-        handleDragStart: this.handleDragStart,
-        handleDragEnd: this.handleDragEnd
-      });
+    }, React.createElement(react_konva_1.Layer, null, [...Array(30).keys()].map((val, i) => {
+      return React.createElement(shapeplay_1.default, null);
     })));
   }
 
 }
 
 exports.default = App;
-},{"react":"node_modules/react/index.js","konva":"node_modules/konva/lib/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js","./components/star":"components/star.tsx","./components/shapeplay":"components/shapeplay.tsx"}],"index.tsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","konva":"node_modules/konva/lib/index.js","react-konva":"node_modules/react-konva/lib/ReactKonva.js","./components/shapeplay":"components/shapeplay.tsx"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -56737,7 +56679,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51271" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59039" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

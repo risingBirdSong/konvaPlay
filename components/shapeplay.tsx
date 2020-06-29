@@ -9,6 +9,7 @@ import {
   Transformer,
   KonvaNodeComponent,
 } from "react-konva";
+import { Star, StarConfig } from "konva/types/shapes/Star";
 
 interface PlayState {
   x: number;
@@ -16,6 +17,7 @@ interface PlayState {
 }
 
 class Play extends React.Component<{}, PlayState> {
+  // private star!: KonvaNodeComponent<typeof Star, StarConfig>;
   constructor(props: any) {
     super(props);
     this.state = {
@@ -25,23 +27,28 @@ class Play extends React.Component<{}, PlayState> {
   }
 
   componentDidMount() {
-    this.setState({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
-    // this.timing();
+    this.setState({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+    });
+    let animationSpeed = 30;
+    this.anim = new Konva.Animation((frame) => {
+      let angleDiff = (frame?.timeDiff * animationSpeed) / 1000;
+      // this.star.rotate(angleDiff);
+      this.star.to({
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+        // duration: 0.11,
+      });
+      // console.log("logger", this.star.getAbsoluteScale());
+    }, this.star.getLayer());
+    this.anim.start();
   }
 
-  change = () => {
-    this.star.to({
-      scaleX: Math.random() + 0.8,
-      scaleY: Math.random() + 0.8,
-      duration: 0.2,
-    });
-  };
+  componentWillUnmount() {
+    this.anim.stop();
+  }
 
-  timing = () => {
-    setInterval(() => {
-      this.change();
-    }, 100);
-  };
   render() {
     return (
       <Star
@@ -49,14 +56,11 @@ class Play extends React.Component<{}, PlayState> {
           //@ts-ignore
           this.star = node;
         }}
-        onMouseEnter={this.timing}
         draggable
         innerRadius={20}
         outerRadius={40}
         x={this.state.x}
         y={this.state.y}
-        onDragStart={this.change}
-        onDragEnd={this.change}
         numPoints={6}
         fill="blue"
       />

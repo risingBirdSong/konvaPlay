@@ -1,6 +1,7 @@
 import * as React from "react";
 import Konva from "konva";
 import { Stage, Layer, Star, Text, Line, Rect } from "react-konva";
+import { AnimationFn } from "konva/types/types";
 
 class AnimateMe extends React.Component {
   componentDidMount() {
