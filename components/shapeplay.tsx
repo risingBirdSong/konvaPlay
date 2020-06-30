@@ -24,7 +24,8 @@ let colors = ["red", "blue", "purple", "green", "orange"];
 
 colors[Math.floor(colors.length * Math.random())];
 class Play extends React.Component<PlayProps, PlayState> {
-  // private star!: KonvaNodeComponent<typeof Star, StarConfig>;
+  private nodeStar: React.RefObject<Konva.Star> = React.createRef();
+
   constructor(props: any) {
     super(props);
     this.state = {
@@ -44,13 +45,13 @@ class Play extends React.Component<PlayProps, PlayState> {
       // console.log("sin time", Math.sin(frame!.time));
       let angleDiff = (frame?.timeDiff * animationSpeed) / 1000;
       // this.star.rotate(angleDiff);
-      this.star.to({
+      this.nodeStar.current?.to({
         x: this.props.x + Math.random() * 40,
         y: this.props.y + Math.random() * 40,
         duration: 2,
       });
-      // console.log("logger", this.star.getAbsoluteScale());
-    }, this.star.getLayer());
+      // console.log("logger", this.nodeStar.getAbsoluteScale());
+    }, this.nodeStar.current?.getLayer());
     this.anim.start();
   }
 
@@ -61,10 +62,11 @@ class Play extends React.Component<PlayProps, PlayState> {
   render() {
     return (
       <Star
-        ref={(node) => {
-          //@ts-ignore
-          this.star = node;
-        }}
+        // ref={(node) => {
+        //   //@ts-ignore
+        //   this.star = node;
+        // }}
+        ref={this.nodeStar}
         onClick={(e) => {
           e.cancelBubble = true;
           console.log("star attrs", e.currentTarget.attrs);

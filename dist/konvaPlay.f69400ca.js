@@ -56475,9 +56475,9 @@ let colors = ["red", "blue", "purple", "green", "orange"];
 colors[Math.floor(colors.length * Math.random())];
 
 class Play extends React.Component {
-  // private star!: KonvaNodeComponent<typeof Star, StarConfig>;
   constructor(props) {
     super(props);
+    this.nodeStar = React.createRef();
     this.state = {
       x: 0,
       y: 0,
@@ -56486,23 +56486,25 @@ class Play extends React.Component {
   }
 
   componentDidMount() {
+    var _a;
+
     this.setState({
       x: window.innerWidth / 2 + Math.random() * 100,
       y: window.innerHeight / 2 + Math.random() * 100
     });
     let animationSpeed = 30;
     this.anim = new konva_1.default.Animation(frame => {
-      var _a; // console.log("sin time", Math.sin(frame!.time));
+      var _a, _b; // console.log("sin time", Math.sin(frame!.time));
 
 
       let angleDiff = ((_a = frame) === null || _a === void 0 ? void 0 : _a.timeDiff) * animationSpeed / 1000; // this.star.rotate(angleDiff);
 
-      this.star.to({
+      (_b = this.nodeStar.current) === null || _b === void 0 ? void 0 : _b.to({
         x: this.props.x + Math.random() * 40,
         y: this.props.y + Math.random() * 40,
         duration: 2
-      }); // console.log("logger", this.star.getAbsoluteScale());
-    }, this.star.getLayer());
+      }); // console.log("logger", this.nodeStar.getAbsoluteScale());
+    }, (_a = this.nodeStar.current) === null || _a === void 0 ? void 0 : _a.getLayer());
     this.anim.start();
   }
 
@@ -56512,10 +56514,11 @@ class Play extends React.Component {
 
   render() {
     return React.createElement(react_konva_1.Star, {
-      ref: node => {
-        //@ts-ignore
-        this.star = node;
-      },
+      // ref={(node) => {
+      //   //@ts-ignore
+      //   this.star = node;
+      // }}
+      ref: this.nodeStar,
       onClick: e => {
         e.cancelBubble = true;
         console.log("star attrs", e.currentTarget.attrs);
@@ -56701,7 +56704,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59039" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56265" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
