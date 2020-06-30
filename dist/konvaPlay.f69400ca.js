@@ -56471,32 +56471,40 @@ const konva_1 = __importDefault(require("konva"));
 
 const react_konva_1 = require("react-konva");
 
+let colors = ["red", "blue", "purple", "green", "orange"];
+colors[Math.floor(colors.length * Math.random())];
+
 class Play extends React.Component {
-  // private star!: KonvaNodeComponent<typeof Star, StarConfig>;
   constructor(props) {
     super(props);
+    this.nodeStar = React.createRef();
     this.state = {
       x: 0,
-      y: 0
+      y: 0,
+      color: colors[Math.floor(colors.length * Math.random())]
     };
   }
 
   componentDidMount() {
+    var _a;
+
     this.setState({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight
+      x: window.innerWidth / 2 + Math.random() * 100,
+      y: window.innerHeight / 2 + Math.random() * 100
     });
     let animationSpeed = 30;
     this.anim = new konva_1.default.Animation(frame => {
-      var _a;
+      var _a, _b; // console.log("sin time", Math.sin(frame!.time));
+
 
       let angleDiff = ((_a = frame) === null || _a === void 0 ? void 0 : _a.timeDiff) * animationSpeed / 1000; // this.star.rotate(angleDiff);
 
-      this.star.to({
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2
-      }); // console.log("logger", this.star.getAbsoluteScale());
-    }, this.star.getLayer());
+      (_b = this.nodeStar.current) === null || _b === void 0 ? void 0 : _b.to({
+        x: this.props.x + Math.random() * 40,
+        y: this.props.y + Math.random() * 40,
+        duration: 2
+      }); // console.log("logger", this.nodeStar.getAbsoluteScale());
+    }, (_a = this.nodeStar.current) === null || _a === void 0 ? void 0 : _a.getLayer());
     this.anim.start();
   }
 
@@ -56506,17 +56514,23 @@ class Play extends React.Component {
 
   render() {
     return React.createElement(react_konva_1.Star, {
-      ref: node => {
-        //@ts-ignore
-        this.star = node;
+      // ref={(node) => {
+      //   //@ts-ignore
+      //   this.star = node;
+      // }}
+      ref: this.nodeStar,
+      onClick: e => {
+        e.cancelBubble = true;
+        console.log("star attrs", e.currentTarget.attrs);
       },
+      name: "star",
       draggable: true,
-      innerRadius: 20,
-      outerRadius: 40,
+      innerRadius: 100,
+      outerRadius: 130,
       x: this.state.x,
       y: this.state.y,
       numPoints: 6,
-      fill: "blue"
+      fill: this.state.color
     });
   }
 
@@ -56573,8 +56587,6 @@ class App extends React.Component {
       coordsCopy[idx] = [e.currentTarget.x(), e.currentTarget.y()];
       this.setState({
         coords: coordsCopy
-      }, () => {
-        console.log("new state", this.state.coords[idx]);
       });
       e.target.to({
         duration: 0.5,
@@ -56587,26 +56599,36 @@ class App extends React.Component {
     };
 
     this.state = {
-      coords: []
+      coords: [],
+      mainX: 0,
+      mainY: 0,
+      i: 0,
+      angle: 0
     };
-    console.log(this.state.coords);
     this.handleDragStart = this.handleDragStart.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
   }
 
   componentDidMount() {
     this.setState({
-      coords: []
-    }, () => {
-      console.log("state", this.state.coords);
+      coords: [],
+      mainX: window.innerWidth / 2,
+      mainY: window.innerHeight / 2
     });
+    setInterval(() => {
+      let angle = 0.1 * this.state.i;
+      this.setState(prevState => ({
+        i: prevState.i === 360 ? 0 : prevState.i + 1,
+        mainX: prevState.mainX + Math.sin(angle) * 30,
+        mainY: prevState.mainY + Math.cos(angle) * 30
+      }));
+    }, 5);
   }
 
   render() {
-    console.log("window inner height", window.innerHeight);
     return React.createElement(react_konva_1.Stage, {
+      name: "stage",
       onClick: e => {
-        console.log("", e.currentTarget.children[0].children);
         const newCoords = [e.evt.clientX.valueOf(), e.evt.clientY.valueOf()];
         const newState = [...this.state.coords].concat([newCoords]);
         this.setState({
@@ -56615,8 +56637,11 @@ class App extends React.Component {
       },
       width: window.innerWidth,
       height: window.innerHeight
-    }, React.createElement(react_konva_1.Layer, null, [...Array(30).keys()].map((val, i) => {
-      return React.createElement(shapeplay_1.default, null);
+    }, React.createElement(react_konva_1.Layer, null, this.state.coords.map((val, i) => {
+      return React.createElement(shapeplay_1.default, {
+        x: val[0],
+        y: val[1]
+      });
     })));
   }
 
@@ -56679,7 +56704,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59039" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56265" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

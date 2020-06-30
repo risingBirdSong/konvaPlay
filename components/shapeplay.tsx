@@ -9,39 +9,49 @@ import {
   Transformer,
   KonvaNodeComponent,
 } from "react-konva";
-import { Star, StarConfig } from "konva/types/shapes/Star";
 
-interface PlayState {
+interface PlayProps {
   x: number;
   y: number;
 }
+interface PlayState {
+  x: number;
+  y: number;
+  color: string;
+}
 
-class Play extends React.Component<{}, PlayState> {
-  // private star!: KonvaNodeComponent<typeof Star, StarConfig>;
+let colors = ["red", "blue", "purple", "green", "orange"];
+
+colors[Math.floor(colors.length * Math.random())];
+class Play extends React.Component<PlayProps, PlayState> {
+  private nodeStar: React.RefObject<Konva.Star> = React.createRef();
+
   constructor(props: any) {
     super(props);
     this.state = {
       x: 0,
       y: 0,
+      color: colors[Math.floor(colors.length * Math.random())],
     };
   }
 
   componentDidMount() {
     this.setState({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
+      x: window.innerWidth / 2 + Math.random() * 100,
+      y: window.innerHeight / 2 + Math.random() * 100,
     });
     let animationSpeed = 30;
     this.anim = new Konva.Animation((frame) => {
+      // console.log("sin time", Math.sin(frame!.time));
       let angleDiff = (frame?.timeDiff * animationSpeed) / 1000;
       // this.star.rotate(angleDiff);
-      this.star.to({
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
-        // duration: 0.11,
+      this.nodeStar.current?.to({
+        x: this.props.x + Math.random() * 40,
+        y: this.props.y + Math.random() * 40,
+        duration: 2,
       });
-      // console.log("logger", this.star.getAbsoluteScale());
-    }, this.star.getLayer());
+      // console.log("logger", this.nodeStar.getAbsoluteScale());
+    }, this.nodeStar.current?.getLayer());
     this.anim.start();
   }
 
@@ -52,17 +62,23 @@ class Play extends React.Component<{}, PlayState> {
   render() {
     return (
       <Star
-        ref={(node) => {
-          //@ts-ignore
-          this.star = node;
+        // ref={(node) => {
+        //   //@ts-ignore
+        //   this.star = node;
+        // }}
+        ref={this.nodeStar}
+        onClick={(e) => {
+          e.cancelBubble = true;
+          console.log("star attrs", e.currentTarget.attrs);
         }}
+        name="star"
         draggable
-        innerRadius={20}
-        outerRadius={40}
+        innerRadius={100}
+        outerRadius={130}
         x={this.state.x}
         y={this.state.y}
         numPoints={6}
-        fill="blue"
+        fill={this.state.color}
       />
     );
   }
