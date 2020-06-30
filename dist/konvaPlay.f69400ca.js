@@ -30680,6 +30680,7 @@ var Node = (function () {
         if (Util_1.Util._isFunction(this[method])) {
             return this[method]();
         }
+        console.log("notvalid attr got a NaN value");
         return this.attrs[attr];
     };
     Node.prototype.getAncestors = function () {
@@ -34138,14 +34139,14 @@ var Tween = (function () {
             else if (colorAttrs.indexOf(key) !== -1) {
                 newVal =
                     'rgba(' +
-                        Math.round(start.r + diff.r * i) +
-                        ',' +
-                        Math.round(start.g + diff.g * i) +
-                        ',' +
-                        Math.round(start.b + diff.b * i) +
-                        ',' +
-                        (start.a + diff.a * i) +
-                        ')';
+                    Math.round(start.r + diff.r * i) +
+                    ',' +
+                    Math.round(start.g + diff.g * i) +
+                    ',' +
+                    Math.round(start.b + diff.b * i) +
+                    ',' +
+                    (start.a + diff.a * i) +
+                    ')';
             }
             else {
                 newVal = start + diff * i;
@@ -36166,6 +36167,7 @@ var Star = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Star.prototype._sceneFunc = function (context) {
+        // console.log('context', context);
         var innerRadius = this.innerRadius(), outerRadius = this.outerRadius(), numPoints = this.numPoints();
         context.beginPath();
         context.moveTo(0, 0 - outerRadius);
@@ -56475,8 +56477,12 @@ let colors = ["red", "blue", "purple", "green", "orange"];
 colors[Math.floor(colors.length * Math.random())];
 
 class Play extends React.Component {
+  //todo type it
+  // anim: any;
+  // anim :  (func: AnimationFn, layers?: any) => Animation;
   constructor(props) {
-    super(props);
+    super(props); // private nodeStar! : Konva.St
+
     this.nodeStar = React.createRef();
     this.state = {
       x: 0,
@@ -56500,9 +56506,14 @@ class Play extends React.Component {
       let angleDiff = ((_a = frame) === null || _a === void 0 ? void 0 : _a.timeDiff) * animationSpeed / 1000; // this.star.rotate(angleDiff);
 
       (_b = this.nodeStar.current) === null || _b === void 0 ? void 0 : _b.to({
-        x: this.props.x + Math.random() * 40,
-        y: this.props.y + Math.random() * 40,
-        duration: 2
+        x: this.props.x + Math.random() * 100,
+        y: this.props.y + Math.random() * 100,
+        scaleX: 1,
+        duration: 2,
+        noisefalsy: 4,
+        ignoreMe: "am i nan",
+        notvalid: true,
+        scalex: "close but not"
       }); // console.log("logger", this.nodeStar.getAbsoluteScale());
     }, (_a = this.nodeStar.current) === null || _a === void 0 ? void 0 : _a.getLayer());
     this.anim.start();
@@ -56514,10 +56525,6 @@ class Play extends React.Component {
 
   render() {
     return React.createElement(react_konva_1.Star, {
-      // ref={(node) => {
-      //   //@ts-ignore
-      //   this.star = node;
-      // }}
       ref: this.nodeStar,
       onClick: e => {
         e.cancelBubble = true;
@@ -56704,7 +56711,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56265" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51004" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

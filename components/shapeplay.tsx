@@ -24,7 +24,12 @@ let colors = ["red", "blue", "purple", "green", "orange"];
 
 colors[Math.floor(colors.length * Math.random())];
 class Play extends React.Component<PlayProps, PlayState> {
+  // private nodeStar! : Konva.St
   private nodeStar: React.RefObject<Konva.Star> = React.createRef();
+  //todo type it
+  // anim: any;
+
+  // anim :  (func: AnimationFn, layers?: any) => Animation;
 
   constructor(props: any) {
     super(props);
@@ -46,9 +51,14 @@ class Play extends React.Component<PlayProps, PlayState> {
       let angleDiff = (frame?.timeDiff * animationSpeed) / 1000;
       // this.star.rotate(angleDiff);
       this.nodeStar.current?.to({
-        x: this.props.x + Math.random() * 40,
-        y: this.props.y + Math.random() * 40,
+        x: this.props.x + Math.random() * 100,
+        y: this.props.y + Math.random() * 100,
+        scaleX: 1,
         duration: 2,
+        noisefalsy: 4,
+        ignoreMe: "am i nan",
+        notvalid: true,
+        scalex: "close but not",
       });
       // console.log("logger", this.nodeStar.getAbsoluteScale());
     }, this.nodeStar.current?.getLayer());
@@ -62,10 +72,6 @@ class Play extends React.Component<PlayProps, PlayState> {
   render() {
     return (
       <Star
-        // ref={(node) => {
-        //   //@ts-ignore
-        //   this.star = node;
-        // }}
         ref={this.nodeStar}
         onClick={(e) => {
           e.cancelBubble = true;
