@@ -47,7 +47,7 @@ class Play extends React.Component<PlayProps, PlayState> {
       this.star.to({
         x: this.props.x + Math.random() * 40,
         y: this.props.y + Math.random() * 40,
-        // duration: 0.3,
+        duration: 2,
       });
       // console.log("logger", this.star.getAbsoluteScale());
     }, this.star.getLayer());
@@ -65,9 +65,14 @@ class Play extends React.Component<PlayProps, PlayState> {
           //@ts-ignore
           this.star = node;
         }}
+        onClick={(e) => {
+          e.cancelBubble = true;
+          console.log("star attrs", e.currentTarget.attrs);
+        }}
+        name="star"
         draggable
-        innerRadius={20}
-        outerRadius={40}
+        innerRadius={100}
+        outerRadius={130}
         x={this.state.x}
         y={this.state.y}
         numPoints={6}

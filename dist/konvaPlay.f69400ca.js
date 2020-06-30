@@ -56499,7 +56499,8 @@ class Play extends React.Component {
 
       this.star.to({
         x: this.props.x + Math.random() * 40,
-        y: this.props.y + Math.random() * 40
+        y: this.props.y + Math.random() * 40,
+        duration: 2
       }); // console.log("logger", this.star.getAbsoluteScale());
     }, this.star.getLayer());
     this.anim.start();
@@ -56515,9 +56516,14 @@ class Play extends React.Component {
         //@ts-ignore
         this.star = node;
       },
+      onClick: e => {
+        e.cancelBubble = true;
+        console.log("star attrs", e.currentTarget.attrs);
+      },
+      name: "star",
       draggable: true,
-      innerRadius: 20,
-      outerRadius: 40,
+      innerRadius: 100,
+      outerRadius: 130,
       x: this.state.x,
       y: this.state.y,
       numPoints: 6,
@@ -56578,8 +56584,6 @@ class App extends React.Component {
       coordsCopy[idx] = [e.currentTarget.x(), e.currentTarget.y()];
       this.setState({
         coords: coordsCopy
-      }, () => {
-        console.log("new state", this.state.coords[idx]);
       });
       e.target.to({
         duration: 0.5,
@@ -56598,7 +56602,6 @@ class App extends React.Component {
       i: 0,
       angle: 0
     };
-    console.log(this.state.coords);
     this.handleDragStart = this.handleDragStart.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
   }
@@ -56615,17 +56618,14 @@ class App extends React.Component {
         i: prevState.i === 360 ? 0 : prevState.i + 1,
         mainX: prevState.mainX + Math.sin(angle) * 30,
         mainY: prevState.mainY + Math.cos(angle) * 30
-      }), () => {
-        console.log("i", this.state.i);
-      });
+      }));
     }, 5);
   }
 
   render() {
-    console.log("window inner height", window.innerHeight);
     return React.createElement(react_konva_1.Stage, {
+      name: "stage",
       onClick: e => {
-        console.log("", e.currentTarget.children[0].children);
         const newCoords = [e.evt.clientX.valueOf(), e.evt.clientY.valueOf()];
         const newState = [...this.state.coords].concat([newCoords]);
         this.setState({
@@ -56634,10 +56634,10 @@ class App extends React.Component {
       },
       width: window.innerWidth,
       height: window.innerHeight
-    }, React.createElement(react_konva_1.Layer, null, [...Array(30).keys()].map((val, i) => {
+    }, React.createElement(react_konva_1.Layer, null, this.state.coords.map((val, i) => {
       return React.createElement(shapeplay_1.default, {
-        x: this.state.mainX,
-        y: this.state.mainY
+        x: val[0],
+        y: val[1]
       });
     })));
   }

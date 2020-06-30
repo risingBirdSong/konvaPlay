@@ -28,7 +28,6 @@ class App extends React.Component<{}, AppState> {
       i: 0,
       angle: 0,
     };
-    console.log(this.state.coords);
     this.handleDragStart = this.handleDragStart.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
   }
@@ -41,16 +40,11 @@ class App extends React.Component<{}, AppState> {
     });
     setInterval(() => {
       let angle = 0.1 * this.state.i;
-      this.setState(
-        (prevState) => ({
-          i: prevState.i === 360 ? 0 : prevState.i + 1,
-          mainX: prevState.mainX + Math.sin(angle) * 30,
-          mainY: prevState.mainY + Math.cos(angle) * 30,
-        }),
-        () => {
-          console.log("i", this.state.i);
-        }
-      );
+      this.setState((prevState) => ({
+        i: prevState.i === 360 ? 0 : prevState.i + 1,
+        mainX: prevState.mainX + Math.sin(angle) * 30,
+        mainY: prevState.mainY + Math.cos(angle) * 30,
+      }));
     }, 5);
   }
 
@@ -68,9 +62,7 @@ class App extends React.Component<{}, AppState> {
   handleDragEnd = (e: Konva.KonvaEventObject<DragEvent>, idx: number) => {
     let coordsCopy = this.state.coords;
     coordsCopy[idx] = [e.currentTarget.x(), e.currentTarget.y()];
-    this.setState({ coords: coordsCopy }, () => {
-      console.log("new state", this.state.coords[idx]);
-    });
+    this.setState({ coords: coordsCopy });
     e.target.to({
       duration: 0.5,
       easing: Konva.Easings.ElasticEaseOut,
@@ -81,11 +73,10 @@ class App extends React.Component<{}, AppState> {
     });
   };
   render() {
-    console.log("window inner height", window.innerHeight);
     return (
       <Stage
+        name="stage"
         onClick={(e) => {
-          console.log("", e.currentTarget.children[0].children);
           const newCoords = [e.evt.clientX.valueOf(), e.evt.clientY.valueOf()];
           const newState = [...this.state.coords].concat([newCoords]);
           this.setState({ coords: newState });
@@ -94,8 +85,8 @@ class App extends React.Component<{}, AppState> {
         height={window.innerHeight}
       >
         <Layer>
-          {[...Array(30).keys()].map((val, i) => {
-            return <Play x={this.state.mainX} y={this.state.mainY} />;
+          {this.state.coords.map((val, i) => {
+            return <Play x={val[0]} y={val[1]} />;
           })}
         </Layer>
       </Stage>
